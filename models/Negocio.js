@@ -21,9 +21,18 @@ const NegocioSchema = mongoose.Schema({
     horario_atencion:{
         type: String,
         trim: true
+    },
+    create:{
+        type: Date,
+        default: Date.now()
+    },
+    // relaciones con otros modelos
+    rubro:{
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Rubro'
     }
 });
 
 module.exports = mongoose.model('Negocio', NegocioSchema);
 
-// Falta campos: Rubros/Categoria, Etiquetas, Avatar
+// Falta campos: Etiquetas, Avatar
