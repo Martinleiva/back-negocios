@@ -14,8 +14,8 @@ app.use( express.json({ extended: true }) );
 const PORT = process.env.PORT || 4000;
 
 //Import routers
-app.use('/api/negocio/create/', require('./routes/negocio'));
-app.use('/api/rubro/create/', require('./routes/rubro'));
+app.use('/api/negocio', require('./routes/negocio'));
+app.use('/api/rubro', require('./routes/rubro'));
 
 //Start the app
 app.listen(PORT, () => {
