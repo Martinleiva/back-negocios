@@ -3,6 +3,6 @@ const router = express.Router();
 const negocioController = require('../controllers/negocioController');
 
 // creacion de negocio: api/negocio/create/
-router.post('/', negocioController.crearNegocio)
+router.post('/create/', negocioController.crearNegocio)
 
 module.exports = router;
