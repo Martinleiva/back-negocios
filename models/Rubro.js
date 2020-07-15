@@ -4,7 +4,6 @@ const RubroSchema = mongoose.Schema({
     nombre:{
         type: String,
         required: true,
-        index: true,
         unique: true,
         trim: true
     }
