@@ -1,4 +1,5 @@
 const Rubro = require('../models/Rubro');
+const { validationResult } = require('express-validator');
 
 exports.crearRubro = async (req, res) => {
     // Error Report
