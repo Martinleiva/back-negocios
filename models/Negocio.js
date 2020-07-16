@@ -1,5 +1,18 @@
 const mongoose = require('mongoose');
 
+
+const ComentarioSchema = mongoose.Schema({
+    texto:{
+        type:String,
+        required:true
+    },
+    created_at: { 
+        type: Date,
+        default: Date.now()
+    }
+});
+
+
 const NegocioSchema = mongoose.Schema({
     nombre:{
         type: String,
@@ -23,7 +36,7 @@ const NegocioSchema = mongoose.Schema({
         type: String,
         trim: true
     },
-    create:{
+    created_at:{
         type: Date,
         default: Date.now()
     },
@@ -34,7 +47,8 @@ const NegocioSchema = mongoose.Schema({
     rubro:{
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Rubro'
-    }
+    },
+    comentarios: {type: [ComentarioSchema]}
 });
 
 module.exports = mongoose.model('Negocio', NegocioSchema);
