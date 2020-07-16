@@ -11,4 +11,9 @@ router.post('/create/',
     etiquetaController.crearEtiqueta
 );
 
+// Obtiene listado de etiquetas: api/etiqueta/
+router.get('/',
+    etiquetaController.obtenerListadoEtiquetas
+);
+
 module.exports = router;

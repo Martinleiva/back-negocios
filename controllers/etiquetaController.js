@@ -25,6 +25,16 @@ exports.crearEtiqueta = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(500).send('Se produjo un Error');
+        res.status(500).send(`Se produjo un Error`);
+    }
+}
+
+exports.obtenerListadoEtiquetas = async (req, res) => {
+    try {
+        const etiquetas = await Etiqueta.find().sort({ nombre_etiqueta: 1 });
+        res.json({ etiquetas });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(`Se produjo un Error`);
     }
 }
