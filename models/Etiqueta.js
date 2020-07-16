@@ -7,7 +7,7 @@ const EtiquetaSchema = mongoose.Schema({
         unique: true,
         trim: true
     },
-    create_at: {
+    created_at: {
         type: Date,
         default: Date.now()
     }

@@ -23,7 +23,7 @@ const NegocioSchema = mongoose.Schema({
         type: String,
         trim: true
     },
-    create:{
+    created_at:{
         type: Date,
         default: Date.now()
     },
