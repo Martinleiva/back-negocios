@@ -35,4 +35,9 @@ app.put('/:id_negocio/comentario/update/:id_comentario',
         negocioController.actualizarComentario
 );
 
+// Elimina un comentario: api/negocio/<id_negocio>/comentario/delete/<id_comentario>
+app.delete('/:id_negocio/comentario/delete/:id_comentario',
+        negocioController.eliminarComentario
+);
+
 module.exports = app;

@@ -112,8 +112,31 @@ exports.actualizarComentario = async (req, res) => {
             }}, {'new': true});
 
         res.json({ 
-            'msg': 'Comentario actualizado con éxito', 
+            'msg': 'Comentario actualizado con éxito!', 
             comentario
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+}
+
+exports.eliminarComentario = async (req, res) => {
+    try {
+        let negocio = await Negocio.findOne(
+            {'_id': req.params.id_negocio, 'comentarios._id': req.params.id_comentario},
+            {'comentarios.$': 1 }); // Hago que la consulta me limite a un resultado en el array comentarios
+        if(!negocio){
+            return res.status(404).json({msg:'Negocio con comentario no encontrado'});
+        }
+
+        await Negocio.findByIdAndUpdate(
+            req.params.id_negocio, 
+            { $pull: { "comentarios": { _id: req.params.id_comentario } } }
+        );
+
+        res.json({ 
+            'msg': 'Comentario eliminado con éxito!', 
         });
     } catch (error) {
         console.log(error);
