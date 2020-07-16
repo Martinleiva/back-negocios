@@ -16,7 +16,7 @@ exports.crearRubro = async (req, res) => {
         // verificate 'nombre --> rubro' (unique)
         if ( rubro ){
             return res.status(400).
-                        json({ msg: 'Ya existe una etiqueta con el nombre: '+ {nombre} });
+                        json({ msg: 'Ya existe una Rubro con el nombre: '+ {nombre} });
         }
 
         // if all right, create rubro

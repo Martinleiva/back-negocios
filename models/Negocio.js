@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const NegocioSchema = mongoose.Schema({
     nombre:{
         type: String,
+        unique: true,
         required: true,
         trim: true
     },
@@ -25,6 +26,9 @@ const NegocioSchema = mongoose.Schema({
     create:{
         type: Date,
         default: Date.now()
+    },
+    avatar:{
+        type: String
     },
     // relaciones con otros modelos
     rubro:{
