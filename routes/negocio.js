@@ -14,6 +14,17 @@ app.post('/create/',
             check('nombre', 'El nombre del Negocio es obligatorio').not().isEmpty()     
         ],
         negocioController.crearNegocio
-)
+);
+
+
+// ----------- Comentarios ------------------------
+
+// Agregar comentario a un negocio: api/negocio/<id_negocio>/comentario/create/
+app.post('/:id_negocio/comentario/create/',
+        [
+            check('texto', 'El texto del Comentario es obligatorio').not().isEmpty()     
+        ], 
+        negocioController.agregarComentario
+);
 
 module.exports = app;

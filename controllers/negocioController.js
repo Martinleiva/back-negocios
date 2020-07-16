@@ -56,3 +56,32 @@ exports.crearNegocio = async (req, res) => {
     
     }
 }
+
+
+// ------------------------------------ COMENTARIOS ---------------------------------------------------
+
+exports.agregarComentario = async (req, res) => {
+    // Revisa si no hay errores
+    const errores = validationResult(req);
+    if( !errores.isEmpty() ){
+        return res.status(400).json({ errores: errores.array() });
+    }
+
+    try {
+        const negocio = await Negocio.findById(req.params.id_negocio);
+        if(!negocio){
+            return res.status(404).json({msg:'Negocio no encontrado'});
+        }
+        
+        // push agrega elementos al final del array y retorna la cantidad de elementos del array
+        const cantidad = negocio.comentarios.push(req.body);
+        await negocio.save();
+        res.json({ 
+            'msg': 'Comentario agregado con éxito!',
+            'comentario': negocio.comentarios[cantidad-1] // cantidad-1 para traer el ultimo elemento
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(`Se produjo un Error ${error}`);
+    }
+}
