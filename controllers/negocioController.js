@@ -51,9 +51,8 @@ exports.crearNegocio = async (req, res) => {
         res.status(200).send(`Negocio Creado! \\n \\n ${negocio}`);
 
     }catch (error){
-        
-        res.status(500).send(`Se produjo un Error ${error}`);
-    
+        console.log(error);
+        res.status(500).send(`Se produjo un Error`);
     }
 }
 
@@ -82,7 +81,7 @@ exports.agregarComentario = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send(`Se produjo un Error ${error}`);
+        res.status(500).send(`Se produjo un Error`);
     }
 }
 
@@ -117,7 +116,7 @@ exports.actualizarComentario = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send('Hubo un error');
+        res.status(500).send(`Se produjo un Error`);
     }
 }
 
@@ -140,6 +139,6 @@ exports.eliminarComentario = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send('Hubo un error');
+        res.status(500).send(`Se produjo un Error`);
     }
 }
