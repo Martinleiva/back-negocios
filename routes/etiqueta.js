@@ -16,4 +16,12 @@ router.get('/',
     etiquetaController.obtenerListadoEtiquetas
 );
 
+// Actualiza etiqueta: api/etiqueta/update/<id>
+router.put('/update/:id',
+    [
+        check('nombre_etiqueta', 'El nombre de la etiqueta es obligatorio').not().isEmpty()
+    ],
+    etiquetaController.actualizarEtiqueta
+);
+
 module.exports = router;
