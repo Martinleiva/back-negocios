@@ -27,4 +27,12 @@ app.post('/:id_negocio/comentario/create/',
         negocioController.agregarComentario
 );
 
+// Actualiza un comentario: api/negocio/<id_negocio>/comentario/update/<id_comentario>
+app.put('/:id_negocio/comentario/update/:id_comentario',
+        [
+            check('texto', 'El texto del Comentario es obligatorio').not().isEmpty()     
+        ], 
+        negocioController.actualizarComentario
+);
+
 module.exports = app;

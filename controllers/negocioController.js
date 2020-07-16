@@ -85,3 +85,38 @@ exports.agregarComentario = async (req, res) => {
         res.status(500).send(`Se produjo un Error ${error}`);
     }
 }
+
+exports.actualizarComentario = async (req, res) => {
+    // Revisa si no hay errores
+    const errores = validationResult(req);
+    if( !errores.isEmpty() ){
+        return res.status(400).json({ errores: errores.array() });
+    }
+
+    try {
+        const { texto } = req.body;
+        let negocio = await Negocio.findOne(
+            {'_id': req.params.id_negocio, 'comentarios._id': req.params.id_comentario},
+            {'comentarios.$': 1 }); // Hago que la consulta me limite a un resultado en el array comentarios
+        if(!negocio){
+            return res.status(404).json({msg:'Negocio con comentario no encontrado'});
+        }
+
+        // Obtengo el objeto comentario y chequeo si tiene texto
+        let comentario = negocio.comentarios[0];
+        if(texto) comentario.texto = texto;
+
+        await Negocio.findOneAndUpdate({_id: req.params.id_negocio, comentarios: {$elemMatch: {_id: req.params.id_comentario}}},
+            {$set: {
+                'comentarios.$.texto': comentario.texto
+            }}, {'new': true});
+
+        res.json({ 
+            'msg': 'Comentario actualizado con éxito', 
+            comentario
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error');
+    }
+}
