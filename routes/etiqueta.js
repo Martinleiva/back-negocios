@@ -24,4 +24,9 @@ router.put('/update/:id',
     etiquetaController.actualizarEtiqueta
 );
 
+// Elimina etiqueta: api/etiqueta/delete/<id>
+router.delete('/delete/:id',
+    etiquetaController.eliminarEtiqueta
+);
+
 module.exports = router;

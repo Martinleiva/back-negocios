@@ -80,3 +80,20 @@ exports.actualizarEtiqueta = async (req, res) => {
         res.status(500).send(`Se produjo un Error`);
     }
 }
+
+exports.eliminarEtiqueta = async (req, res) => {
+    try {
+        let etiqueta = await Etiqueta.findById(req.params.id);
+        if(!etiqueta){
+            return res.status(404).json({msg:'Etiqueta no encontrada'});
+        }
+
+        await Etiqueta.findOneAndRemove({ _id: req.params.id });
+
+        res.json({ msg: `Etiqueta "${etiqueta.nombre_etiqueta}" eliminada con éxito!` });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(`Se produjo un Error`);
+    }
+}
