@@ -68,7 +68,7 @@ exports.actualizarNegocio = async (req, res) => {
         let negocio_update = await Negocio.findById( req.params.id_negocio );
 
         if (!negocio_update)
-            return res.status(400).json({ msg: 'No se encontro el Negocio a actualizar' });    
+            return res.status(404).json({ msg: 'No se encontro el Negocio a actualizar' });    
 
         // verificate new name not duplicate with name exists (unique)
         if(req.body.nombre){
@@ -140,6 +140,39 @@ exports.actualizarNegocio = async (req, res) => {
         }
     }
 }
+
+exports.eliminarNegocio = async (req, res) => {
+    try {
+        const negocio = await Negocio.findById(req.params.id_negocio);
+
+        await Negocio.findByIdAndDelete(
+            req.params.id_negocio, 
+            (err) => {
+                if(err) return res.status(500).send(`Error eliminando Negocio: \n ${err}`);
+                else borrar_avatar(negocio.avatar);
+            }
+        );
+        
+        return res.status(200).json({msg:'Negocio eliminado'});
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(`Se produjo un Error`);
+    }
+
+    // functions of Update Negocio
+    function borrar_avatar(avatar_url){
+        let path_avatar = path.resolve(
+            __dirname, 
+            `../upload_file/negocio/avatar/${avatar_url}`
+        );
+        if( fs.existsSync(path_avatar) ){
+            console.log(path_avatar);
+            fs.unlinkSync(path_avatar);
+        }
+    }
+}
+
 
 // ------------------------------------ COMENTARIOS ---------------------------------------------------
 

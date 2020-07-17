@@ -8,6 +8,8 @@ const { check } = require('express-validator');
 // default options
 app.use( fileUpload({ useTempFiles: true }) );
 
+// ------------------------------- NEGOCIO ------------------------------------
+
 // creacion de negocio: api/negocio/create/
 app.post('/create/', 
         [
@@ -19,6 +21,8 @@ app.post('/create/',
 // update negocio: api/negocio/update/<id_negocio>
 app.put('/update/:id_negocio', negocioController.actualizarNegocio);
 
+// delete negocio: api/negocio/delete/<id_negocio>
+app.delete('/delete/:id_negocio', negocioController.eliminarNegocio);
 
 
 // ------------------------------- COMENTARIOS ------------------------------------
