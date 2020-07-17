@@ -10,7 +10,11 @@ const EtiquetaSchema = mongoose.Schema({
     created_at: {
         type: Date,
         default: Date.now()
-    }
+    },
+    negocios:{
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Negocio'
+    },
 });
 
 module.exports = mongoose.model('Etiqueta', EtiquetaSchema);
