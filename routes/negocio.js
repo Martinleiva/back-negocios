@@ -14,6 +14,37 @@ app.post('/create/',
             check('nombre', 'El nombre del Negocio es obligatorio').not().isEmpty()     
         ],
         negocioController.crearNegocio
-)
+);
+
+
+// ------------------------------- COMENTARIOS ------------------------------------
+
+// Agregar comentario a un negocio: api/negocio/<id_negocio>/comentario/create/
+app.post('/:id_negocio/comentario/create/',
+        [
+            check('texto', 'El texto del Comentario es obligatorio').not().isEmpty()     
+        ], 
+        negocioController.agregarComentario
+);
+
+// Actualiza un comentario: api/negocio/<id_negocio>/comentario/update/<id_comentario>
+app.put('/:id_negocio/comentario/update/:id_comentario',
+        [
+            check('texto', 'El texto del Comentario es obligatorio').not().isEmpty()     
+        ], 
+        negocioController.actualizarComentario
+);
+
+// Elimina un comentario: api/negocio/<id_negocio>/comentario/delete/<id_comentario>
+app.delete('/:id_negocio/comentario/delete/:id_comentario',
+        negocioController.eliminarComentario
+);
+
+
+// ------------------------------- ETIQUETAS ------------------------------------
+// Asocia una etiqueta a un negocio: api/negocio/<id_negocio>/etiqueta/associate/<id_etiqueta>
+app.post('/:id_negocio/etiqueta/associate/:id_etiqueta',
+        negocioController.asociarEtiquetaNegocio
+);
 
 module.exports = app;
