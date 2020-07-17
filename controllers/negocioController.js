@@ -174,6 +174,17 @@ exports.eliminarNegocio = async (req, res) => {
 }
 
 
+exports.listNegocio = async (req, res) => {
+    try {
+        let negocio_list = await Negocio.find();
+        return res.json({negocio_list});
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(`Se produjo un Error`);
+    }
+}
+
 // ------------------------------------ COMENTARIOS ---------------------------------------------------
 
 exports.agregarComentario = async (req, res) => {

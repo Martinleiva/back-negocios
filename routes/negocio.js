@@ -24,6 +24,9 @@ app.put('/update/:id_negocio', negocioController.actualizarNegocio);
 // delete negocio: api/negocio/delete/<id_negocio>
 app.delete('/delete/:id_negocio', negocioController.eliminarNegocio);
 
+// Get List Negocios: api/negocio/list
+app.get('/list', negocioController.listNegocio );
+
 
 // ------------------------------- COMENTARIOS ------------------------------------
 
