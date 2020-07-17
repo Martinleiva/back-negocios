@@ -1,4 +1,5 @@
 const Negocio = require('../models/Negocio');
+const Etiqueta = require('../models/Etiqueta');
 const { validationResult } = require('express-validator');
 
 exports.crearNegocio = async (req, res) => {
@@ -137,6 +138,37 @@ exports.eliminarComentario = async (req, res) => {
         res.json({ 
             'msg': 'Comentario eliminado con éxito!', 
         });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(`Se produjo un Error`);
+    }
+}
+
+
+// ------------------------------------ ETIQUETAS ---------------------------------------------------
+
+exports.asociarEtiquetaNegocio = async (req, res) => {
+    try {
+        const negocio = await Negocio.findById(req.params.id_negocio);
+        if(!negocio){
+            return res.status(404).json({msg:'Negocio no encontrado'});
+        }
+
+        const etiqueta = await Etiqueta.findById(req.params.id_etiqueta);
+        if(!etiqueta){
+            return res.status(404).json({msg:'Etiqueta no encontrada'});
+        }
+        
+        // addToSet agrega elementos al array sólo si el elemento no está en el array
+        // Agrego la etiqueta al array etiquetas en negocio
+        negocio.etiquetas.addToSet(etiqueta.id);
+        // Agrego el negocio al array negocios en etiqueta
+        etiqueta.negocios.addToSet(negocio.id);
+        
+        await negocio.save();
+        await etiqueta.save();
+        res.json({ 'msg': `Etiqueta ${etiqueta.nombre_etiqueta} asociada con éxito!`});
+
     } catch (error) {
         console.log(error);
         res.status(500).send(`Se produjo un Error`);

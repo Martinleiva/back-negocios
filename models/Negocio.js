@@ -48,6 +48,10 @@ const NegocioSchema = mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Rubro'
     },
+    etiquetas:{
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Etiqueta'
+    },
     comentarios: {type: [ComentarioSchema]}
 });
 

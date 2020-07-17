@@ -17,7 +17,7 @@ app.post('/create/',
 );
 
 
-// ----------- Comentarios ------------------------
+// ------------------------------- COMENTARIOS ------------------------------------
 
 // Agregar comentario a un negocio: api/negocio/<id_negocio>/comentario/create/
 app.post('/:id_negocio/comentario/create/',
@@ -38,6 +38,13 @@ app.put('/:id_negocio/comentario/update/:id_comentario',
 // Elimina un comentario: api/negocio/<id_negocio>/comentario/delete/<id_comentario>
 app.delete('/:id_negocio/comentario/delete/:id_comentario',
         negocioController.eliminarComentario
+);
+
+
+// ------------------------------- ETIQUETAS ------------------------------------
+// Asocia una etiqueta a un negocio: api/negocio/<id_negocio>/etiqueta/associate/<id_etiqueta>
+app.post('/:id_negocio/etiqueta/associate/:id_etiqueta',
+        negocioController.asociarEtiquetaNegocio
 );
 
 module.exports = app;
