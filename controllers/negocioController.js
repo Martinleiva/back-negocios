@@ -15,13 +15,7 @@ exports.crearNegocio = async (req, res) => {
         let negocio_duplicate = await Negocio.findOne( {nombre} );
         if ( negocio_duplicate ){
             return res.status(400).
-                        json({ msg: 'Ya existe un Negocio con el nombre: '+ {nombre} });
-        }
-
-        // convert field delivery to boolean
-        if(req.body.delivery){
-            let delivery = req.body.delivery[0];
-            req.body.delivery = delivery == 'true' ? true: false;
+                        json({ msg: 'Ya existe un Negocio con el nombre: '+ nombre });
         }
 
         // Create negocio
