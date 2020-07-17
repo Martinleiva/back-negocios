@@ -1,6 +1,11 @@
 const Negocio = require('../models/Negocio');
 const Etiqueta = require('../models/Etiqueta');
 const { validationResult } = require('express-validator');
+const fs = require('fs');
+const path = require('path');
+
+
+// ------------------------------------ NEGOCIO ---------------------------------------------------
 
 exports.crearNegocio = async (req, res) => {
 
@@ -34,7 +39,7 @@ exports.crearNegocio = async (req, res) => {
 
         negocio.save();
 
-        // guardando img
+        // save img
         if(avatar){
             avatar.mv(`./upload_file/negocio/avatar/${avatar_nombre}`, (err) => {
 
@@ -51,6 +56,90 @@ exports.crearNegocio = async (req, res) => {
     }
 }
 
+exports.actualizarNegocio = async (req, res) => {
+
+    // Error Report
+    const errores = validationResult(req);
+    if( !errores.isEmpty() ){
+        return res.status(400).json({ errores: errores.array() });
+    }
+
+    try{
+        let negocio_update = await Negocio.findById( req.params.id_negocio );
+
+        if (!negocio_update)
+            return res.status(400).json({ msg: 'No se encontro el Negocio a actualizar' });    
+
+        // verificate new name not duplicate with name exists (unique)
+        if(req.body.nombre){
+            let negocio_duplicate = await Negocio.findOne( {nombre:req.body.nombre} );
+            
+            if(negocio_duplicate._id != negocio_update._id)
+                    return res.status(400).
+                            json({ msg: `Ya existe un Negocio con el nombre: ${req.body.nombre}` });    
+        }
+
+        // new avatar
+        let avatar_nombre = null;
+
+        if(req.files && req.files.avatar){
+            // eliminar el avatar anterior del negocio
+            borrar_avatar(negocio_update.avatar);
+
+            let avatar = req.files.avatar;
+            let extension = avatar.name.split('.');
+            extension = extension[extension.length-1];
+            if(req.body.nombre){                                
+                avatar_nombre = `${req.body.nombre}-avatar.${extension}`;
+            }
+            else
+                avatar_nombre = `${negocio_update.nombre}-avatar.${extension}`;
+
+            // upload new avatar
+            avatar.mv(`./upload_file/negocio/avatar/${avatar_nombre}`, (err) => {
+                if(err) res.status(500).send('Error guardando avatar de negocio', err);
+            });
+        }
+
+
+        // fields to update
+        let nombre = descripcion = telefonos = delivery = horario_atencion = null;
+        let update_fields = {};
+
+        if (req.body.nombre) update_fields['nombre'] = req.body.nombre;
+        if (req.body.descripcion) update_fields['descripcion'] = req.body.descripcion;
+        if (req.body.telefonos) update_fields['telefonos'] = req.body.telefonos;
+        if (req.body.delivery) update_fields['delivery'] = req.body.delivery;
+        if (req.body.horario_atencion) update_fields['horario_atencion'] = req.body.horario_atencion;
+        if (avatar_nombre) update_fields['avatar'] = avatar_nombre;
+        
+        await negocio_update.updateOne(
+            update_fields,
+            (err, result) => {
+                if(!err) 
+                    res.status(200).send(`Negocio actualizado!`);
+                else
+                    res.status(500).send(`Se produjo un Error actualizando Negocio`);
+            }
+        );
+
+    }catch (error){
+        console.log(error);
+        res.status(500).send(`Se produjo un Error`);
+    }
+
+    // functions of Update Negocio
+    function borrar_avatar(avatar_url){
+        let path_avatar = path.resolve(
+            __dirname, 
+            `../upload_file/negocio/avatar/${avatar_url}`
+        );
+        if( fs.existsSync(path_avatar) ){
+            console.log(path_avatar);
+            fs.unlinkSync(path_avatar);
+        }
+    }
+}
 
 // ------------------------------------ COMENTARIOS ---------------------------------------------------
 

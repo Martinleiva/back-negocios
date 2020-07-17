@@ -16,6 +16,10 @@ app.post('/create/',
         negocioController.crearNegocio
 );
 
+// update negocio: api/negocio/update/<id_negocio>
+app.put('/update/:id_negocio', negocioController.actualizarNegocio);
+
+
 
 // ------------------------------- COMENTARIOS ------------------------------------
 
